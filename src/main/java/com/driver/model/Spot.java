@@ -1,8 +1,7 @@
 package com.driver.model;
 
-import com.driver.Enums.SpotType;
-
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "spot")
@@ -23,18 +22,19 @@ public class Spot {
     @JoinColumn
     private ParkingLot parkingLot;
 
-    // List of Reservation
+    @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL)
+    private List<Reservation> reservationList;
 
-
-    public Spot() {
-    }
-
-    public Spot(int id, SpotType spotType, int pricePerHour, boolean occupied, ParkingLot parkingLot) {
+    public Spot(int id, SpotType spotType, int pricePerHour, boolean occupied, ParkingLot parkingLot, List<Reservation> reservationList) {
         this.id = id;
         this.spotType = spotType;
         this.pricePerHour = pricePerHour;
         this.occupied = occupied;
         this.parkingLot = parkingLot;
+        this.reservationList = reservationList;
+    }
+
+    public Spot() {
     }
 
     public int getId() {
@@ -61,7 +61,7 @@ public class Spot {
         this.pricePerHour = pricePerHour;
     }
 
-    public boolean isOccupied() {
+    public boolean getOccupied() {
         return occupied;
     }
 
@@ -75,5 +75,13 @@ public class Spot {
 
     public void setParkingLot(ParkingLot parkingLot) {
         this.parkingLot = parkingLot;
+    }
+
+    public List<Reservation> getReservationList() {
+        return reservationList;
+    }
+
+    public void setReservationList(List<Reservation> reservationList) {
+        this.reservationList = reservationList;
     }
 }
